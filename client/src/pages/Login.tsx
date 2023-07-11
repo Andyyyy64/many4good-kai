@@ -25,7 +25,6 @@ export const Login: React.FC = () => {
         } catch (error: any) {
             console.error(error);
             alert(error.response.data.message);
-            // Handle error here
         }
     };
     return (

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getIncome } from '../../api/income';
+import { DeleteIncome } from './deleteIncome';
+import { AddIncome } from './addIncome';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -36,11 +38,13 @@ export const MyIncome = () => {
     return (
         <TableContainer component={Paper}>
             <h1>収入</h1>
+            <AddIncome />
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
                         <TableCell align="right">Amount</TableCell>
+                        <TableCell align="right">Delete</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -53,6 +57,7 @@ export const MyIncome = () => {
                                 {income.name}
                             </TableCell>
                             <TableCell align="right">{income.amount}</TableCell>
+                            <TableCell align="right"><DeleteIncome id={income.id} /></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

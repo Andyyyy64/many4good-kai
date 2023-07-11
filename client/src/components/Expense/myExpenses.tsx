@@ -59,7 +59,7 @@ export const MyExpenses = () => {
                             </TableCell>
                             <TableCell align="right">{expense.cost}</TableCell>
                             <TableCell align="right">{expense.is_food ? "食" : ""}</TableCell>
-                            <TableCell align="right"></TableCell>
+                            <TableCell align="right"><DeleteExpense id={expense.id} /></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

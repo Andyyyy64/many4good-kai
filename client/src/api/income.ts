@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:6465/acounting";
+const API_URL = "http://localhost:3000/acounting";
 const token = localStorage.getItem("token");
 
 export const getIncome = async (userId: number) => {
@@ -8,7 +8,7 @@ export const getIncome = async (userId: number) => {
     return response.data.income;
 }
 
-export const addIncome = async (userId: number, name: string, amount: number) => {
+export const addIncomes = async (userId: number | undefined, name: string | undefined, amount: number | undefined) => {
     const response = await axios.post(`${API_URL}/income`, {
         user_id: userId,
         name: name,
@@ -17,7 +17,7 @@ export const addIncome = async (userId: number, name: string, amount: number) =>
     return response.data;
 }
 
-export const deleteIncome = async (id: number) => {
+export const deleteIncomes = async (id: number) => {
     const response = await axios.delete(`${API_URL}/delete/income/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
     return response.data;
 }

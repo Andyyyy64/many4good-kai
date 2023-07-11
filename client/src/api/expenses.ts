@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:6465/acounting';
+const API_URL = 'http://localhost:3000/acounting';
 const token = localStorage.getItem('token');
 
 export const getExpenses = async (userId: number) => {

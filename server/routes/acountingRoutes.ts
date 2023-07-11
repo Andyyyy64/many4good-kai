@@ -1,18 +1,20 @@
 import express from "express";
-import { getIncomeData, addIncomeData, changeIncomeData } from "../controllers/incomeController";
-import { getExpensesData, addExpensesData, changeExpensesData } from "../controllers/expensesController";
+import { getIncomeData, addIncomeData, deleteIncomeData, changeIncomeData } from "../controllers/incomeController";
+import { getExpensesData, addExpensesData, deleteExpensesData, changeExpensesData } from "../controllers/expensesController";
 import { authMiddleware } from "../middleware/authMiddleware";
 
 const acountingRouter: express.Router = express.Router();
 
 // income
-acountingRouter.get("/income", authMiddleware, getIncomeData);
+acountingRouter.get("/income/:user_id", authMiddleware, getIncomeData);
 acountingRouter.post("/income", authMiddleware, addIncomeData);
-acountingRouter.put("/income/:id", authMiddleware, changeIncomeData);
+acountingRouter.delete("/delete/income/:id", authMiddleware, deleteIncomeData);
+acountingRouter.put("/change/income/:id", authMiddleware, changeIncomeData);
 
 // expenses
-acountingRouter.get("/expenses", authMiddleware, getExpensesData);
+acountingRouter.get("/expenses/:user_id", authMiddleware, getExpensesData);
 acountingRouter.post("/expenses", authMiddleware, addExpensesData);
-acountingRouter.put("/expenses/:id", authMiddleware, changeExpensesData);
+acountingRouter.delete("/delete/expenses/:id", authMiddleware, deleteExpensesData);
+acountingRouter.put("/change/expenses/:id", authMiddleware, changeExpensesData);
 
 export default acountingRouter;

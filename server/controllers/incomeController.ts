@@ -10,7 +10,7 @@ type IncomeType = {
 }
 
 export const getIncomeData = async (req: Request, res: Response): Promise<void> => {
-    const { user_id } = req.body;
+    const { user_id } = req.params;
 
     // get income from db
     try {
@@ -30,6 +30,19 @@ export const addIncomeData = async (req: Request, res: Response): Promise<void> 
         await db.run("INSERT INTO income (user_id, name, amount) VALUES ($1, $2, $3)", [user_id, name, amount]);
         res.status(200).json({ message: "Income added" });
         console.log("Income added");
+    } catch(err: any) {
+        console.log(err.message);
+        res.status(400).json({ message: err });
+    }
+}
+
+export const deleteIncomeData = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+
+    // delete income from db
+    try {
+        await db.run("DELETE FROM income WHERE id = $1", [id]);
+        res.status(200).json({ message: "Income deleted" });
     } catch(err: any) {
         console.log(err.message);
         res.status(400).json({ message: err });

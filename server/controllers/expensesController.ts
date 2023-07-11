@@ -11,7 +11,7 @@ type ExpensesType = {
 }
 
 export const getExpensesData = async (req: Request, res: Response): Promise<void> => {
-    const { user_id } = req.body;
+    const { user_id } = req.params;
 
     // get expenses from db
     try {
@@ -31,6 +31,19 @@ export const addExpensesData = async (req: Request, res: Response): Promise<void
         await db.run("INSERT INTO expenses (user_id, name, cost, is_food) VALUES ($1, $2, $3, $4)", [user_id, name, cost, is_food]);
         res.status(200).json({ message: "Expenses added" });
         console.log("Expenses added");
+    } catch(err: any) {
+        console.log(err.message);
+        res.status(400).json({ message: err });
+    }
+}
+
+export const deleteExpensesData = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+
+    // delete expenses from db
+    try {
+        await db.run("DELETE FROM expenses WHERE id = $1", [id]);
+        res.status(200).json({ message: "Expenses deleted" });
     } catch(err: any) {
         console.log(err.message);
         res.status(400).json({ message: err });

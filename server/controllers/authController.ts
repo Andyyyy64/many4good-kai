@@ -9,10 +9,10 @@ dotenv.config();
 const saltRounds = 10;
 
 type UserType = {
-    id: number;
-    username: string;
-    email: string;
-    password: string;
+    id?: number;
+    username?: string;
+    email?: string;
+    password?: string;
 }
 
 const secretKey = process.env.JWT_SECRET_KEY ?? "";
@@ -55,7 +55,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const user: UserType = await db.get("SELECT * FROM users WHERE email = $1", [email]);
+        const user: UserType = await db.get("SELECT id, username, email, password FROM users WHERE email = $1", [email]);
 
         if(!user) {
             console.log("User not found" + email)
@@ -63,7 +63,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password ?? "");
 
         if(!isPasswordValid) {
             console.log("Invalid password" + user.email)

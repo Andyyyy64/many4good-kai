@@ -6,7 +6,6 @@ import { Grid } from '@mui/material';
 
 
 export const Dashboard = () => {
-    // use flex and grid to display the income and expense lists side by side
     return (
         <div>
             {

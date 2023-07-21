@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addExpenses } from "../../api/expenses";
+import { addIncomes } from "../../../api/income";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import { IconButton, TextField, Checkbox } from "@mui/material";
@@ -7,11 +7,10 @@ import AddIcon from '@mui/icons-material/Add';
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 
-export const AddExpense = () => {
+export const AddIncome = () => {
     const [open, setOpen] = useState({ bottom: false });
     const [name, setName] = useState<string>();
-    const [cost, setCost] = useState<number>();
-    const [isFood, setIsFood] = useState<boolean>();
+    const [amount, setAmount] = useState<number>();
 
     const toggleDrawer =
         (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -25,11 +24,11 @@ export const AddExpense = () => {
             setOpen({ bottom: open });
         };
     
-    const addExpense =async (e: React.FormEvent) => {
+    const addIncome = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const expense = await addExpenses(Number(localStorage.getItem('userId')), name, cost, isFood);
-            console.log(expense);
+            const income = await addIncomes(Number(localStorage.getItem('userId')), name, amount);
+            console.log(income);
             setOpen({ bottom: false });
             window.location.reload();
         } catch (error) {
@@ -39,9 +38,9 @@ export const AddExpense = () => {
         
     const list = (_anchor: string) => (
         <Box role="presentation" sx={{ height: 250 }}>
-            <Typography variant="h4" sx={{ textAlign: "center", color: "708090" }}># add expense</Typography>
+            <Typography variant="h4" sx={{ textAlign: "center", color: "708090" }}># add income</Typography>
             <Box sx={{display: "block", textAlign: "center"}}>
-                <form onSubmit={addExpense}>
+                <form onSubmit={addIncome}>
                     <TextField
                         id="outlined-basic"
                         label="Name"
@@ -50,17 +49,10 @@ export const AddExpense = () => {
                     />
                     <TextField
                         id="outlined-basic"
-                        label="Cost"
+                        label="Amount"
                         variant="outlined"
-                        onChange={e => setCost(Number(e.target.value))}
+                        onChange={e => setAmount(Number(e.target.value))}
                     />
-                    <Tooltip title="isfood?">
-                        <Checkbox
-                            sx={{ "& .MuiSvgIcon-root": { fontSize: 30 } }}
-                            value={isFood}
-                            onChange={e => setIsFood(e.target.checked)}
-                        />
-                    </Tooltip>
                     <button type="submit">Add</button>
                 </form>
             </Box>
@@ -70,7 +62,7 @@ export const AddExpense = () => {
     return (
         <div>
             <React.Fragment>
-                <Tooltip title="add expense from modal">
+                <Tooltip title="add income from modal">
                     <IconButton
                         onClick={toggleDrawer(true)}
                         disabled={!localStorage.getItem('userId')}

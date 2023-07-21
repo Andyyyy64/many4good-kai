@@ -24,10 +24,10 @@ export const getIncomeData = async (req: Request, res: Response): Promise<void> 
 
 export const addIncomeData = async (req: Request, res: Response): Promise<void> => {
     const { user_id, name, amount } = req.body;
-
+    const date = new Date();
     // add income to db
     try {
-        await db.run("INSERT INTO income (user_id, name, amount) VALUES ($1, $2, $3)", [user_id, name, amount]);
+        await db.run("INSERT INTO income (user_id, name, amount, date) VALUES ($1, $2, $3, $4)", [user_id, name, amount, date]);
         res.status(200).json({ message: "Income added" });
         console.log("Income added");
     } catch(err: any) {

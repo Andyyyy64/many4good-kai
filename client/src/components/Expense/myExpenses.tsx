@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { getExpenses } from "../../api/expenses";
-import { AddExpense } from "../Expense/addExpense";
-import { DeleteExpense } from "../Expense/deleteExpense";
+import { AddExpense } from "./expenseButton/addExpense";
+import { DeleteExpense } from "./expenseButton/deleteExpense";
+import { SelectDate } from "./expenseButton/selectDate";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -25,7 +26,10 @@ export const MyExpenses = () => {
     const [expenses, setExpenses] = useState<Array<ExpenseType>>([]);
     const [totalCost, setTotalCost] = useState<number | undefined>(0);
     const [totalFoodCost, setTotalFoodCost] = useState<number | undefined>(0);
+    const [selectedMonth, setMonth] = useState<number>(new Date().getMonth() + 1);
+    const [selectedYear, setYear] = useState<number>(new Date().getFullYear());
     const [fetchFlag, setFetchFlag] = useState<boolean>();
+
     const userId: number = Number(localStorage.getItem('userId'));
 
     useEffect(() => {
@@ -33,7 +37,11 @@ export const MyExpenses = () => {
             setFetchFlag(false);
             try {
                 const expensess = await getExpenses(userId);
-                setExpenses(expensess);
+                const filteredExpenses = expensess.filter((expense: ExpenseType) => {
+                    const date = new Date(expense.date);
+                    return date.getFullYear() === selectedYear && (date.getMonth() + 1) === selectedMonth;
+                })
+                setExpenses(filteredExpenses);
                 setFetchFlag(true);
             } catch (error) {
                 console.error(error);
@@ -41,7 +49,7 @@ export const MyExpenses = () => {
             }
         }
         fetchData();
-    }, [userId]);
+    }, [userId, selectedMonth, selectedYear]);
 
     useEffect(() => {
         const total = expenses.reduce((total, expense) => total + expense.cost, 0);
@@ -53,6 +61,7 @@ export const MyExpenses = () => {
     return (
         <TableContainer component={Paper}>
             <h1>$支出{totalCost}円 食費{totalFoodCost}円</h1>
+            <SelectDate selectedMonth={selectedMonth} selectedYear={selectedYear} setMonth={setMonth} setYear={setYear} />
             <AddExpense />
             {
                 fetchFlag ? (
@@ -62,6 +71,7 @@ export const MyExpenses = () => {
                                 <TableCell>Name</TableCell>
                                 <TableCell align="right">Cost</TableCell>
                                 <TableCell align="right">isfood?</TableCell>
+                                <TableCell align="right">Date</TableCell>
                                 <TableCell align="right">Delete</TableCell>
                             </TableRow>
                         </TableHead>
@@ -76,6 +86,7 @@ export const MyExpenses = () => {
                                     </TableCell>
                                     <TableCell align="right">{expense.cost}</TableCell>
                                     <TableCell align="right">{expense.is_food ? "食" : ""}</TableCell>
+                                    <TableCell align="right">{new Date(expense.date).getMonth() + 1 + "月" + new Date(expense.date).getDate() + "日"}</TableCell>
                                     <TableCell align="right"><DeleteExpense id={expense.id} /></TableCell>
                                 </TableRow>
                             ))}
@@ -87,7 +98,6 @@ export const MyExpenses = () => {
                     </Box>
                 )
             }
-
         </TableContainer>
     )
 }

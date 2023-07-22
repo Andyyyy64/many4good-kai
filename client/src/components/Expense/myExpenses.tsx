@@ -30,6 +30,8 @@ type ExpenseType = {
 
 export const MyExpenses = (props: Props) => {
     const [expenses, setExpenses] = useState<Array<ExpenseType>>([]);
+    const [filteredExpenses, setFilteredExpenses] = useState<Array<ExpenseType>>([]);
+    const [filteredTotal, setFilteredTotal] = useState<number>(0);
     const [totalFoodCost, setTotalFoodCost] = useState<number | undefined>(0);
     const [fetchFlag, setFetchFlag] = useState<boolean>();
 
@@ -44,7 +46,8 @@ export const MyExpenses = (props: Props) => {
                     const date = new Date(expense.date);
                     return date.getFullYear() === props.selectedYear && (date.getMonth() + 1) === props.selectedMonth;
                 })
-                setExpenses(filteredExpenses);
+                setExpenses(expensess);
+                setFilteredExpenses(filteredExpenses);
                 setFetchFlag(true);
             } catch (error) {
                 console.error(error);
@@ -56,14 +59,18 @@ export const MyExpenses = (props: Props) => {
 
     useEffect(() => {
         const total = expenses.reduce((total, expense) => total + expense.cost, 0);
-        const foodTotal = expenses.reduce((total, expense) => expense.is_food ? total + expense.cost : total, 0);
-        props.setTotalCost(total ? total : 0);
+        const foodTotal = filteredExpenses.reduce((total, expense) => expense.is_food ? total + expense.cost : total, 0);
+        const filteredTotal = filteredExpenses.reduce((total, expense) => total + expense.cost, 0);
+        props.setTotalCost(total);
+        setFilteredTotal(filteredTotal);
         setTotalFoodCost(foodTotal ? foodTotal : 0);
     }, [expenses])
 
     return (
-        <TableContainer component={Paper} sx={{ background: "linear-gradient(180deg, #fff, lightgray)" }}>
-            <Typography variant="h4" sx={{ textAlign: "center", color: "708090", fontWeight: "bold" }}>支出{props.totalCost}円 食費{totalFoodCost}円</Typography>
+        <TableContainer component={Paper} sx={{ background: "linear-gradient(0deg, #fff, lightgray)" }}>
+            <Typography variant="h4" sx={{ textAlign: "center", color: "708090", fontWeight: "bold" }}>
+                支出{filteredTotal}円 食費{totalFoodCost}円
+            </Typography>
             <AddExpense />
             {
                 fetchFlag ? (
@@ -78,7 +85,7 @@ export const MyExpenses = (props: Props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {expenses.map((expense) => (
+                            {filteredExpenses.map((expense) => (
                                 <TableRow
                                     key={expense.id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

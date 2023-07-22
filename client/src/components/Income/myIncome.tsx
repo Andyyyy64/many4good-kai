@@ -30,6 +30,8 @@ type IncomeType = {
 
 export const MyIncome = (props: Props) => {
     const [incomes, setIncomes] = useState<Array<IncomeType>>([]);
+    const [filteredIncomes, setFilteredIncomes] = useState<Array<IncomeType>>([]);
+    const [filteredTotal, setFilteredTotal] = useState<number>(0);
     const [fetchFlag, setFetchFlag] = useState<boolean>();
 
     const userId: number = Number(localStorage.getItem('userId'));
@@ -43,7 +45,8 @@ export const MyIncome = (props: Props) => {
                     const date = new Date(income.date);
                     return date.getFullYear() === props.selectedYear && (date.getMonth() + 1) === props.selectedMonth;
                 })
-                setIncomes(filteredIncomes);
+                setIncomes(incomes);
+                setFilteredIncomes(filteredIncomes);
                 setFetchFlag(true);
             } catch (error) {
                 console.error(error);
@@ -54,13 +57,17 @@ export const MyIncome = (props: Props) => {
     }, [userId, props.selectedMonth, props.selectedYear]);
 
     useEffect(() => {
-        const total = incomes?.reduce((total, income) => total + income.amount, 0);
-        props.setTotalAmount(total ? total : 0);
-    })
+        const total = incomes.reduce((total, income) => total + income.amount, 0);
+        const filteredTotal = filteredIncomes.reduce((total, income) => total + income.amount, 0);
+        props.setTotalAmount(total);
+        setFilteredTotal(filteredTotal);
+    }, [incomes, filteredIncomes])
 
     return (
-        <TableContainer component={Paper} sx={{ background: "linear-gradient(180deg, #fff, lightgray)" }}>
-            <Typography variant="h4" sx={{ textAlign: "center", color: "708090", fontWeight: "bold", fontFamily: "cursive" }}>収入{props.totalAmount}円</Typography>
+        <TableContainer component={Paper} sx={{ background: "linear-gradient(0deg, #fff, lightgray)" }}>
+            <Typography variant="h4" sx={{ textAlign: "center", color: "708090", fontWeight: "bold", fontFamily: "cursive" }}>
+                収入{filteredTotal}円
+            </Typography>
             <AddIncome />
             {
                 fetchFlag ? (
@@ -74,7 +81,7 @@ export const MyIncome = (props: Props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {incomes.map((income) => (
+                            {filteredIncomes.map((income) => (
                                 <TableRow
                                     key={income.id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

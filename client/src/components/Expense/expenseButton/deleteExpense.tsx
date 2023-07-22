@@ -1,6 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
-import { deleteExpenses } from '../../api/expenses';
+import { deleteExpenses } from '../../../api/expenses';
 
 type Props = {
     id: number

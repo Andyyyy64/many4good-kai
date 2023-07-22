@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addIncomes } from "../../api/income";
+import { addIncomes } from "../../../api/income";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import { IconButton, TextField, Checkbox } from "@mui/material";

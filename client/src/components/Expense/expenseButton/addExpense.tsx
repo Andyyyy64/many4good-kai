@@ -11,7 +11,7 @@ export const AddExpense = () => {
     const [open, setOpen] = useState({ bottom: false });
     const [name, setName] = useState<string>();
     const [cost, setCost] = useState<number>();
-    const [isFood, setIsFood] = useState<boolean>();
+    const [isFood, setIsFood] = useState<boolean>(false);
 
     const toggleDrawer =
         (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -24,8 +24,8 @@ export const AddExpense = () => {
             }
             setOpen({ bottom: open });
         };
-    
-    const addExpense =async (e: React.FormEvent) => {
+
+    const addExpense = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             const expense = await addExpenses(Number(localStorage.getItem('userId')), name, cost, isFood);
@@ -36,11 +36,11 @@ export const AddExpense = () => {
             console.error(error);
         }
     }
-        
+
     const list = (_anchor: string) => (
         <Box role="presentation" sx={{ height: 250 }}>
             <Typography variant="h4" sx={{ textAlign: "center", color: "708090" }}># add expense</Typography>
-            <Box sx={{display: "block", textAlign: "center"}}>
+            <Box sx={{ display: "block", textAlign: "center" }}>
                 <form onSubmit={addExpense}>
                     <TextField
                         id="outlined-basic"

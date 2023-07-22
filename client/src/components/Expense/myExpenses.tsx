@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { getExpenses } from "../../api/expenses";
 import { AddExpense } from "./expenseButton/addExpense";
 import { DeleteExpense } from "./expenseButton/deleteExpense";
-import { SelectDate } from "./expenseButton/selectDate";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,6 +12,13 @@ import Paper from '@mui/material/Paper';
 import { CircularProgress } from "@mui/material";
 import Box from "@mui/material/Box";
 
+type Props = {
+    totalCost: number | undefined;
+    setTotalCost: React.Dispatch<React.SetStateAction<number | undefined>>;
+    selectedMonth: number;
+    selectedYear: number;
+}
+
 type ExpenseType = {
     id: number;
     userId: number;
@@ -22,12 +28,9 @@ type ExpenseType = {
     date: Date;
 }
 
-export const MyExpenses = () => {
+export const MyExpenses = (props: Props) => {
     const [expenses, setExpenses] = useState<Array<ExpenseType>>([]);
-    const [totalCost, setTotalCost] = useState<number | undefined>(0);
     const [totalFoodCost, setTotalFoodCost] = useState<number | undefined>(0);
-    const [selectedMonth, setMonth] = useState<number>(new Date().getMonth() + 1);
-    const [selectedYear, setYear] = useState<number>(new Date().getFullYear());
     const [fetchFlag, setFetchFlag] = useState<boolean>();
 
     const userId: number = Number(localStorage.getItem('userId'));
@@ -39,7 +42,7 @@ export const MyExpenses = () => {
                 const expensess = await getExpenses(userId);
                 const filteredExpenses = expensess.filter((expense: ExpenseType) => {
                     const date = new Date(expense.date);
-                    return date.getFullYear() === selectedYear && (date.getMonth() + 1) === selectedMonth;
+                    return date.getFullYear() === props.selectedYear && (date.getMonth() + 1) === props.selectedMonth;
                 })
                 setExpenses(filteredExpenses);
                 setFetchFlag(true);
@@ -49,19 +52,18 @@ export const MyExpenses = () => {
             }
         }
         fetchData();
-    }, [userId, selectedMonth, selectedYear]);
+    }, [userId, props.selectedMonth, props.selectedYear]);
 
     useEffect(() => {
         const total = expenses.reduce((total, expense) => total + expense.cost, 0);
         const foodTotal = expenses.reduce((total, expense) => expense.is_food ? total + expense.cost : total, 0);
-        setTotalCost(total ? total : 0);
+        props.setTotalCost(total ? total : 0);
         setTotalFoodCost(foodTotal ? foodTotal : 0);
     }, [expenses])
 
     return (
         <TableContainer component={Paper}>
-            <h1>$支出{totalCost}円 食費{totalFoodCost}円</h1>
-            <SelectDate selectedMonth={selectedMonth} selectedYear={selectedYear} setMonth={setMonth} setYear={setYear} />
+            <h1>$支出{props.totalCost}円 食費{totalFoodCost}円</h1>
             <AddExpense />
             {
                 fetchFlag ? (

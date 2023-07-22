@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { getIncome } from '../../api/income';
 import { DeleteIncome } from './incomeButton/deleteIncome';
 import { AddIncome } from './incomeButton/addIncome';
-import { SelectDate } from './incomeButton/selectDate';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,20 +12,24 @@ import Paper from '@mui/material/Paper';
 import { CircularProgress } from '@mui/material';
 import Box from '@mui/material/Box';
 
+type Props = {
+    totalAmount: number | undefined;
+    setTotalAmount: React.Dispatch<React.SetStateAction<number | undefined>>;
+    selectedMonth: number;
+    selectedYear: number;
+}
+
 type IncomeType = {
     id: number;
     userId: number;
     name: string;
     amount: number;
-    date: Date | any;
+    date: Date;
 }
 
-export const MyIncome = () => {
+export const MyIncome = (props: Props) => {
     const [incomes, setIncomes] = useState<Array<IncomeType>>([]);
-    const [totalAmount, setTotalAmount] = useState<number | undefined>(0);
     const [fetchFlag, setFetchFlag] = useState<boolean>();
-    const [selectedMonth, setMonth] = useState<number>(new Date().getMonth() + 1);
-    const [selectedYear, setYear] = useState<number>(new Date().getFullYear());
 
     const userId: number = Number(localStorage.getItem('userId'));
 
@@ -37,7 +40,7 @@ export const MyIncome = () => {
                 const incomes = await getIncome(userId);
                 const filteredIncomes = incomes.filter((income: IncomeType) => {
                     const date = new Date(income.date);
-                    return date.getFullYear() === selectedYear && (date.getMonth() + 1) === selectedMonth;
+                    return date.getFullYear() === props.selectedYear && (date.getMonth() + 1) === props.selectedMonth;
                 })
                 setIncomes(filteredIncomes);
                 setFetchFlag(true);
@@ -47,17 +50,16 @@ export const MyIncome = () => {
             }
         }
         fetchData();
-    }, [userId, selectedMonth, selectedYear]);
+    }, [userId, props.selectedMonth, props.selectedYear]);
 
     useEffect(() => {
         const total = incomes?.reduce((total, income) => total + income.amount, 0);
-        setTotalAmount(total ? total : 0);
+        props.setTotalAmount(total ? total : 0);
     })
 
     return (
         <TableContainer component={Paper}>
-            <h1>$収入 {totalAmount}円</h1>
-            <SelectDate setMonth={setMonth} setYear={setYear} selectedMonth={selectedMonth} selectedYear={selectedYear} />
+            <h1>$収入 {props.totalAmount}円</h1>
             <AddIncome />
             {
                 fetchFlag ? (

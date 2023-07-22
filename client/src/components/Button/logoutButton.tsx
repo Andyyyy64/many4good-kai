@@ -13,7 +13,7 @@ export const LogoutButton = () => {
 
     return (
         <div className="logoutButton">
-            <Button variant="text" href="/" onClick={() => logout()}>Logout</Button>
+            <Button variant="contained" href="/" onClick={() => logout()} sx={{ color: "black", fontWeight: "bold", fontFamily: "cursive" }}>Logout</Button>
         </div>
     )
 }

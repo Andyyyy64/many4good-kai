@@ -4,7 +4,7 @@ import '../../styles/Button.css';
 export const LoginButton = () => {
     return (
         <div className="loginButton">
-            <Button variant="text" href="/login">Login</Button>
+            <Button variant="contained" href="/login" sx={{ color: "black", fontWeight: "bold", fontFamily: "cursive" }}>Login</Button>
         </div>
     )
 }

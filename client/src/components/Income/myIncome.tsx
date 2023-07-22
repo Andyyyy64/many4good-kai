@@ -11,10 +11,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from '@mui/material/Paper';
 import { CircularProgress } from '@mui/material';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 type Props = {
-    totalAmount: number | undefined;
-    setTotalAmount: React.Dispatch<React.SetStateAction<number | undefined>>;
+    totalAmount: number;
+    setTotalAmount: React.Dispatch<React.SetStateAction<number>>;
     selectedMonth: number;
     selectedYear: number;
 }
@@ -58,18 +59,18 @@ export const MyIncome = (props: Props) => {
     })
 
     return (
-        <TableContainer component={Paper}>
-            <h1>$収入 {props.totalAmount}円</h1>
+        <TableContainer component={Paper} sx={{ background: "linear-gradient(180deg, #fff, lightgray)" }}>
+            <Typography variant="h4" sx={{ textAlign: "center", color: "708090", fontWeight: "bold", fontFamily: "cursive" }}>収入{props.totalAmount}円</Typography>
             <AddIncome />
             {
                 fetchFlag ? (
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell align="right">Amount</TableCell>
-                                <TableCell align="right">Date</TableCell>
-                                <TableCell align="right">Delete</TableCell>
+                                <TableCell sx={{ fontFamily: "cursive", fontWeight: "bold" }}>Name</TableCell>
+                                <TableCell sx={{ fontFamily: "cursive", fontWeight: "bold" }} align="right">Amount</TableCell>
+                                <TableCell sx={{ fontFamily: "cursive", fontWeight: "bold" }} align="right">Date</TableCell>
+                                <TableCell sx={{ fontFamily: "cursive", fontWeight: "bold" }} align="right">Delete</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -78,11 +79,11 @@ export const MyIncome = (props: Props) => {
                                     key={income.id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell component="th" scope="row">
+                                    <TableCell component="th" scope="row" sx={{ fontFamily: "sans-serif", fontWeight: "bold" }}>
                                         {income.name}
                                     </TableCell>
-                                    <TableCell align="right">{income.amount}</TableCell>
-                                    <TableCell align="right">{new Date(income.date).getMonth() + 1 + "月" + new Date(income.date).getDate() + "日"}</TableCell>
+                                    <TableCell align="right" sx={{ fontFamily: "cursive", fontWeight: "bold" }}>{income.amount}</TableCell>
+                                    <TableCell align="right" sx={{ fontFamily: "cursive", fontWeight: "bold" }}>{new Date(income.date).getMonth() + 1 + "月" + new Date(income.date).getDate() + "日"}</TableCell>
                                     <TableCell align="right"><DeleteIncome id={income.id} /></TableCell>
                                 </TableRow>
                             ))}

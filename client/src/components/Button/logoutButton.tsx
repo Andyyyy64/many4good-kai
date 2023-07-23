@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import { Box } from "@mui/material";
 import '../../styles/Button.css';
 
 export const LogoutButton = () => {
@@ -12,8 +13,12 @@ export const LogoutButton = () => {
     }
 
     return (
-        <div className="logoutButton">
-            <Button variant="contained" href="/" onClick={() => logout()} sx={{ color: "black", fontWeight: "bold", fontFamily: "cursive" }}>Logout</Button>
-        </div>
+        <Box sx={{textAlign: "right"}}>
+            <Button variant="contained" href="/" onClick={() => logout()}
+                sx={{ color: "black", fontWeight: "bold", fontFamily: "cursive" }}
+            >
+                Logout
+            </Button>
+        </Box>
     )
 }

@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import { Box } from "@mui/material";
-import '../../styles/Button.css';
 
 export const LogoutButton = () => {
 

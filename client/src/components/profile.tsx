@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import { IconButton, Tooltip } from "@mui/material";
-import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
+import { IconButton } from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import { TextField } from "@mui/material";
-import RemoveTwoToneIcon from "@mui/icons-material/RemoveTwoTone";
-import CircularProgress from "@mui/material/CircularProgress";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Typography from "@mui/material/Typography";
 
 interface State {
@@ -31,6 +26,9 @@ export const Profile = () => {
 
     const list = (_anchor: string) => (
         <Box role="presentation" sx={{ height: 500 }}>
+            <Typography variant="h4" sx={{ textAlign: "center", color: "black", fontFamily: "sans-serif", fontWeight: "bold", marginTop: 3 }}>プロフィール</Typography>
+            <Typography variant="h4" sx={{ textAlign: "center", color: "black", fontFamily: "sans-serif", fontWeight: "bold", marginTop: 3 }}>email: {localStorage.getItem("email")}</Typography>
+            <Typography variant="h4" sx={{ textAlign: "center", color: "black", fontFamily: "sans-serif", fontWeight: "bold", marginTop: 3 }}>user1: {localStorage.getItem("username")}</Typography>
         </Box>
     );
 
@@ -41,8 +39,9 @@ export const Profile = () => {
                     <IconButton
                         onClick={toggleDrawer(true)}
                         disabled={localStorage.getItem("userId") ? false : true}
+                        color="inherit"
                     >
-                        <AccountCircleTwoToneIcon fontSize="large" />
+                        <AccountCircleIcon fontSize="large" />
                     </IconButton>
                     <Drawer
                         anchor="bottom"

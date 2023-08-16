@@ -27,7 +27,7 @@ export const Dashboard = () => {
                     <>
                         <Profile />
                         <LogoutButton />
-                        <Typography variant="h4" sx={{ textAlign: "center", color: "black", fontFamily: "sans-serif", fontWeight: "bold", marginTop: 3 }}>今月の残高 {balance}円</Typography>
+                        <Typography variant="h4" sx={{ textAlign: "center", color: "white", fontFamily: "sans-serif", fontWeight: "bold", marginTop: 3 }}>今月の残高 {balance}円</Typography>
                         <SelectDate selectedMonth={selectedMonth} selectedYear={selectedYear} setMonth={setMonth} setYear={setYear} />
                         <Grid container spacing={2}>
                             <Grid item xs={6}>

@@ -40,7 +40,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
 
         console.log("User registered" + user.email)
         res.status(200).json({ user: { id: user.id, email: user.email }, message: "User registered" })
-    } catch(err) {
+    } catch(err: any) {
         console.log(err.message)
         res.status(400).json({ message: err })
     }

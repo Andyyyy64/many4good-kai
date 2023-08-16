@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState } from 'react';
 
 type User = {
   id: number;
@@ -12,8 +12,8 @@ type AuthContextType = {
 };
 
 type AuthProviderProps = {
-    children: React.ReactNode;
-  };
+  children: React.ReactNode;
+};
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

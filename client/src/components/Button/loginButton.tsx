@@ -1,10 +1,13 @@
 import { Button } from "@mui/material";
-import '../../styles/Button.css';
+import { Box } from "@mui/material";
 
 export const LoginButton = () => {
     return (
-        <div className="loginButton">
-            <Button variant="text" href="/login">Login</Button>
-        </div>
+        <Box sx={{ textAlign: "center", margin: 10 }}>
+            <Button variant="contained" href="/login"
+                sx={{ color: "white", fontWeight: "bold", fontFamily: "cursive" }}>
+                Login
+            </Button>
+        </Box>
     )
 }

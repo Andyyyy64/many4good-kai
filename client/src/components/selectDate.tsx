@@ -27,9 +27,9 @@ export const SelectDate = (props: Props) => {
 
   function SelectMonth(props: Props) {
     return (
-      <Box sx={{ minWidth: 100 }}>
+      <Box sx={{ minWidth: 100 }} >
         <FormControl>
-          <InputLabel id="label">month</InputLabel>
+          <InputLabel id="label" sx={{ color: "white", fontWeight: "bold" }}>month</InputLabel>
           <Select
             labelId="label"
             id="select"
@@ -38,6 +38,7 @@ export const SelectDate = (props: Props) => {
             onChange={(e) => {
               props.setMonth(Number(e.target.value));
             }}
+            sx={{ color: "white", fontWeight: "bold" }}
           >
             {Month.map((item, index: number) => {
               return (
@@ -56,7 +57,7 @@ export const SelectDate = (props: Props) => {
     return (
       <Box sx={{ minWidth: 100 }}>
         <FormControl>
-          <InputLabel id="label">year</InputLabel>
+          <InputLabel id="label" sx={{ color: "white", fontWeight: "bold" }}>year</InputLabel>
           <Select
             labelId="label"
             id="select"
@@ -65,6 +66,7 @@ export const SelectDate = (props: Props) => {
             onChange={(e) => {
               props.setYear(e.target.value as number);
             }}
+            sx={{ color: "white", fontWeight: "bold" }}
           >
             {Year.map((item, index: number) => {
               return (

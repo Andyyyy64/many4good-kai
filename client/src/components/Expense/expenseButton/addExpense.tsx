@@ -38,8 +38,8 @@ export const AddExpense = () => {
     }
 
     const list = (_anchor: string) => (
-        <Box role="presentation" sx={{ height: 250 }}>
-            <Typography variant="h4" sx={{ textAlign: "center", color: "708090" }}># add expense</Typography>
+        <Box role="presentation" sx={{ height: 350 }}>
+            <Typography variant="h4" sx={{ textAlign: "center", color: "708090", fontFamily: "cursive", margin: 4 }}>add expense</Typography>
             <Box sx={{ display: "block", textAlign: "center" }}>
                 <form onSubmit={addExpense}>
                     <TextField
@@ -61,7 +61,7 @@ export const AddExpense = () => {
                             onChange={e => setIsFood(e.target.checked)}
                         />
                     </Tooltip>
-                    <button type="submit">Add</button>
+                    <button type="submit" disabled={!name || !cost} style={{ backgroundColor: (!name || !cost) ? "grey" : "blue" }}>Add</button>
                 </form>
             </Box>
         </Box>

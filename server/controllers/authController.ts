@@ -40,7 +40,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
 
         console.log("User registered" + user.email)
         res.status(200).json({ user: { id: user.id, email: user.email }, message: "User registered" })
-    } catch(err: any) {
+    } catch(err) {
         console.log(err.message)
         res.status(400).json({ message: err })
     }
@@ -71,7 +71,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const token: string = jwt.sign({ id: user.id, email: user.email, username: user.username }, secretKey, { expiresIn: "1w" });
+        const token: string = jwt.sign({ id: user.id, email: user.email, username: user.username }, secretKey, { expiresIn: "10w" });
 
         console.log("User logged in" + user.email)
         res.status(200).json({ token, user: { id: user.id, email: user.email, username: user.username}, message: "User logged in" })

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { login } from '../api/auth';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Typography } from '@mui/material';
 import '../styles/Login.css'
 
 export const Login: React.FC = () => {
@@ -16,9 +18,9 @@ export const Login: React.FC = () => {
             const user = await login(email, password);
             console.log(user)
             localStorage.setItem('token', user.token);
-            localStorage.setItem('userId',user.user.id);
-            localStorage.setItem('email',user.user.email);
-            localStorage.setItem('username',user.user.username);
+            localStorage.setItem('userId', user.user.id);
+            localStorage.setItem('email', user.user.email);
+            localStorage.setItem('username', user.user.username);
             setUser(user.user);
             navi('/');
             window.location.reload();
@@ -44,6 +46,7 @@ export const Login: React.FC = () => {
                 />
                 <button type="submit">Log in</button>
             </form>
+            <Typography variant='h6' sx={{ color: "gray" }}>If you do not have an account, please <Link to="/register">register</Link> here.</Typography>
         </div>
     );
 };
